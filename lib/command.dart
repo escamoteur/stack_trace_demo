@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:stack_trace/stack_trace.dart';
 
@@ -21,7 +23,7 @@ class CommandSimple {
     try {
       await _execute();
     } catch (e, s) {
-      final trace = _improveStacktrace(s).terse;
+      final trace = _improveStacktrace(s);
       print('Error executing command $name: $trace');
     } finally {
       isExecuting.value = false;
@@ -32,7 +34,13 @@ class CommandSimple {
   }
 
   Future<void> _execute() async {
-    await asyncFunc();
+    final completer = Completer<void>();
+    Chain.capture(
+      () => asyncFunc().then(completer.complete),
+      onError: completer.completeError,
+      when: true,
+    );
+    await completer.future;
   }
 
   Chain _improveStacktrace(
