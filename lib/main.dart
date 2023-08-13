@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_command/flutter_command.dart';
 import 'package:stack_trace_demo/async_function_chain.dart';
+import 'package:stack_trace_demo/command.dart';
 
 void main() {
-  Command.globalExceptionHandler = (e, s) {
-    print('Global exception handler: $s');
-  };
   runApp(const MyApp());
 }
 
@@ -36,10 +33,10 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   _MyHomePageState() {
-    _command = Command.createAsyncNoParamNoResult(level1, debugName: 'level1');
+    _command = CommandSimple(level1, 'TestCommand');
   }
 
-  Command<void, void>? _command;
+  late final CommandSimple _command;
 
   @override
   Widget build(BuildContext context) {
