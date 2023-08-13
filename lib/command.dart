@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class Command {
+class CommandSimple {
   final Future<void> Function() asyncFunc;
   final String name;
 
   final isExecuting = ValueNotifier(false);
 
-  Command(this.asyncFunc, this.name);
+  CommandSimple(this.asyncFunc, this.name);
 
   void execute() async {
     isExecuting.value = true;
@@ -15,11 +15,18 @@ class Command {
     await Future<void>.delayed(Duration.zero);
 
     try {
-      await asyncFunc();
+      await _execute();
     } catch (e, s) {
-      print('Error executing command $name: $e, $s');
+      print('Error executing command $name: $s');
     } finally {
       isExecuting.value = false;
+
+      /// give the async notifications a chance to propagate
+      await Future<void>.delayed(Duration.zero);
     }
+  }
+
+  Future<void> _execute() async {
+    await asyncFunc();
   }
 }

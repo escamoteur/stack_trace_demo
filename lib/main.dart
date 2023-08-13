@@ -33,18 +33,10 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   _MyHomePageState() {
-    _command = Command(level1, 'level1');
+    _command = CommandSimple(level1, 'level1');
   }
 
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  Command? _command;
+  CommandSimple? _command;
 
   @override
   Widget build(BuildContext context) {

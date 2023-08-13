@@ -1,3 +1,5 @@
+import 'package:http/http.dart' as http;
+
 Future<void> level1() async {
   await Future<void>.delayed(const Duration(seconds: 1));
   print('level1');
@@ -25,5 +27,6 @@ Future<void> level4() async {
 Future<void> level5() async {
   await Future<void>.delayed(const Duration(seconds: 1));
   print('level5');
-  throw Exception('level5');
+  final response =
+      await http.get(Uri.parse('https://www.no-domain-escamoteur.com'));
 }
