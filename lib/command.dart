@@ -21,7 +21,7 @@ class CommandSimple {
     try {
       await _execute();
     } catch (e, s) {
-      final trace = _improveStacktrace(s);
+      final trace = _improveStacktrace(s).terse;
       print('Error executing command $name: $trace');
     } finally {
       isExecuting.value = false;
