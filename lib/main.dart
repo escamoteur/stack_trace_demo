@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_command/flutter_command.dart';
 import 'package:stack_trace_demo/async_function_chain.dart';
-import 'package:stack_trace_demo/command.dart';
 
 void main() {
+  Command.globalExceptionHandler = (e, s) {
+    print('Global exception handler: $s');
+  };
   runApp(const MyApp());
 }
 
@@ -33,10 +36,10 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   _MyHomePageState() {
-    _command = CommandSimple(level1, 'level1');
+    _command = Command.createAsyncNoParamNoResult(level1, debugName: 'level1');
   }
 
-  CommandSimple? _command;
+  Command<void, void>? _command;
 
   @override
   Widget build(BuildContext context) {
@@ -45,16 +48,12 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
+      body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'Tap the button to crash',
-            ),
             Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+              'Tap the button to crash',
             ),
           ],
         ),
